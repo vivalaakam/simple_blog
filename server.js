@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import render from './render';
+import setRouterContext from './middleware/routerContext';
+import render from './middleware/render';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -19,9 +20,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.get('/', (req, res) => {
-  res.send(render());
-});
+app.get('/*', setRouterContext, render);
 
 app.listen(port, () => {
   /* eslint no-console: ["error", { allow: ["log"] }] */

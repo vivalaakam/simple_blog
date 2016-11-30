@@ -33,6 +33,7 @@
   },
   "globals": {
     "fetch": false,
+    "navigator": false,
     "document": false,
     "window": false,
     "webpackIsomorphicTools": false
