@@ -4,10 +4,15 @@ import 'normalize.css';
 import style from './styles/main.scss';
 import Root from './containers/Root';
 import HmrContainer from './containers/HmrContainer';
+import RxStateProvider from './containers/RxStateProvider';
+import { createState } from './state/RxState';
+import reducer$ from './reducers';
 
 const App = (
   <HmrContainer>
-    <Root />
+    <RxStateProvider state$={createState(reducer$)}>
+      <Root />
+    </RxStateProvider>
   </HmrContainer>
 );
 
@@ -23,7 +28,9 @@ if (module.hot) {
     const NextApp = require('./containers/Root'); // eslint-disable-line
     ReactDOM.render(
       <HmrContainer>
-        <NextApp />
+        <RxStateProvider state$={createState(reducer$)}>
+          <NextApp />
+        </RxStateProvider>
       </HmrContainer>,
       root
     );
