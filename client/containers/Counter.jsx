@@ -3,18 +3,19 @@ import Counter from '../components/Counter';
 import * as actions from '../reducers/CounterReducer';
 import { connect } from '../state/RxState';
 
-function CounterContainer({ counter, reset, increment, decrement, async }) {
+function CounterContainer({ counter, reset, increment, decrement }) {
   return (
-    <Counter {...{ counter, reset, increment, decrement, async }} />
+    <Counter {...{ counter, reset, increment, decrement }} />
   );
 }
 
+CounterContainer.onEnter = () => 'query{ counter { counter }}';
+
 CounterContainer.propTypes = {
-  counter: PropTypes.number.isRequired,
+  counter: PropTypes.object.isRequired,
   increment: PropTypes.func.isRequired,
   decrement: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  async: PropTypes.func.isRequired
+  reset: PropTypes.func.isRequired
 };
 
 export default connect(state => ({

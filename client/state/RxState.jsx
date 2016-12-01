@@ -17,6 +17,8 @@ export function connect(selector = state => state) {
         state$: PropTypes.object.isRequired
       };
 
+      static wrappedComponent = WrappedComponent;
+
       componentWillMount() {
         this.subscription = this.context.state$.map(selector).subscribe(::this.setState);
       }

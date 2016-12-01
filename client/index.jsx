@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
+import Rx from 'rxjs';
 import style from './styles/main.scss';
 import Root from './containers/Root';
 import HmrContainer from './containers/HmrContainer';
@@ -8,7 +9,9 @@ import RxStateProvider from './containers/RxStateProvider';
 import { createState } from './state/RxState';
 import reducer$ from './reducers';
 
-const state = createState(reducer$);
+const initial = Rx.Observable.of(window.__INITIAL_STATE__);
+
+const state = createState(reducer$, initial);
 const App = (
   <HmrContainer>
     <RxStateProvider state$={state}>

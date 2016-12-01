@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom/server';
 import Helmet from 'react-helmet';
 
-export default function Html({ assets, component }) {
+export default function Html({ assets, component, state }) {
   const content = component ? ReactDOM.renderToString(component) : '';
   const head = Helmet.rewind();
   return (
@@ -29,6 +29,10 @@ export default function Html({ assets, component }) {
       </head>
       <body>
         <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
+        <script
+          dangerouslySetInnerHTML={{ __html: `window.__INITIAL_STATE__ = ${JSON.stringify(state)};` }}
+          charSet="UTF-8"
+        />
         <script src={assets.javascript.main} charSet="UTF-8" />
       </body>
     </html>
@@ -38,5 +42,6 @@ export default function Html({ assets, component }) {
 
 Html.propTypes = {
   assets: PropTypes.object,
+  state: PropTypes.object,
   component: PropTypes.node
 };

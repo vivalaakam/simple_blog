@@ -1,30 +1,37 @@
 import Rx from 'rxjs';
+import query from '../utils/query';
 
-const initialState = 0;
+const initialState = { counter: 0 };
 
 const reset$ = new Rx.Subject();
-const increment$ = new Rx.Subject();
-const decrement$ = new Rx.Subject();
 
-const CounterReducer$ = Rx.Observable.of(() => initialState)
+const CounterReducer$ = Rx.Observable.of(($initialState) => {
+  if ($initialState) {
+    return $initialState;
+  }
+  return initialState;
+})
   .merge(
-    increment$.map(payload => state => state + payload),
-    decrement$.map(payload => state => state - payload),
-    reset$.map(() => () => initialState)
+    reset$.map(payload => () => payload || initialState)
   );
 
 export default CounterReducer$;
 
-const reset = () => reset$.next();
+const reset = () => query('mutation { counterReset ) { counter } }')
+  .then(({ counterReset }) => {
+    reset$.next(counterReset);
+  });
 
-const increment = n => increment$.next(n);
+const increment = n => query(`mutation { counterIncrement(payload: ${n}) { counter } }`)
+  .then(({ counterIncrement }) => {
+    reset$.next(counterIncrement);
+  });
 
-const decrement = n => decrement$.next(n);
-
-const async = (n) => {
-  setTimeout(() => increment$.next(n), 100);
-};
+const decrement = n => query(`mutation { counterDecrement(payload: ${n}) { counter } }`)
+  .then(({ counterDecrement }) => {
+    reset$.next(counterDecrement);
+  });
 
 export {
-  reset, increment, decrement, async
+  reset, increment, decrement
 };
