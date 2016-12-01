@@ -8,9 +8,10 @@ import RxStateProvider from './containers/RxStateProvider';
 import { createState } from './state/RxState';
 import reducer$ from './reducers';
 
+const state = createState(reducer$);
 const App = (
   <HmrContainer>
-    <RxStateProvider state$={createState(reducer$)}>
+    <RxStateProvider state$={state}>
       <Root />
     </RxStateProvider>
   </HmrContainer>
@@ -25,10 +26,11 @@ ReactDOM.render(
 
 if (module.hot) {
   module.hot.accept('./containers/Root', () => {
-    const NextApp = require('./containers/Root'); // eslint-disable-line
+    const NextApp = require('./containers/Root').default; // eslint-disable-line
+
     ReactDOM.render(
       <HmrContainer>
-        <RxStateProvider state$={createState(reducer$)}>
+        <RxStateProvider state$={state}>
           <NextApp />
         </RxStateProvider>
       </HmrContainer>,
