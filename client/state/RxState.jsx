@@ -1,14 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import Rx from 'rxjs';
 
-export function createAction() {
-  return new Rx.Subject();
-}
-
-export function createActions(actionNames) {
-  return actionNames.reduce((akk, name) => ({ ...akk, [name]: createAction() }), {});
-}
-
 export function createState(reducer$, initialState$ = Rx.Observable.of({})) {
   return initialState$
     .merge(reducer$)
