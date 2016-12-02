@@ -4,9 +4,9 @@ import * as actions from '../reducers/CounterReducer';
 import { connect } from '../state/RxState';
 import query from '../utils/query';
 
-function CounterContainer({ counter, reset, increment, decrement }) {
+function CounterContainer({ counter, reset, increment, decrement, redirectToMain }) {
   return (
-    <Counter {...{ counter, reset, increment, decrement }} />
+    <Counter {...{ counter, reset, increment, decrement, redirectToMain }} />
   );
 }
 
@@ -24,6 +24,7 @@ CounterContainer.propTypes = {
   counter: PropTypes.object.isRequired,
   increment: PropTypes.func.isRequired,
   decrement: PropTypes.func.isRequired,
+  redirectToMain: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired
 };
 

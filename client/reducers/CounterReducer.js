@@ -1,5 +1,6 @@
 import Rx from 'rxjs';
 import query from '../utils/query';
+import { redirect } from './HistoryReducer';
 
 const initialState = { counter: 0 };
 
@@ -34,6 +35,8 @@ const decrement = n => query(`mutation { counterDecrement(payload: ${n}) { count
     applyData(counterDecrement);
   });
 
+const redirectToMain = () => redirect('/');
+
 export {
-  reset, increment, decrement, applyData
+  reset, increment, decrement, applyData, redirectToMain
 };
