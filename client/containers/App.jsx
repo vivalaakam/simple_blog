@@ -1,18 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import App from '../components/App';
 
-export default function Root({ children }) {
-  if (!children) {
-    return (
-      <App />
-    );
-  }
-
+export default function Root() {
   return (
-    children
+    <App />
   );
 }
-
-Root.propTypes = {
-  children: PropTypes.element
-};

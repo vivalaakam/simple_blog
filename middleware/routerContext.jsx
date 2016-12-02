@@ -11,7 +11,7 @@ import schema from '../graphql/schema';
 
 export default function routerContext(req, res, next) {
   match({
-    routes: routes(),
+    routes: routes({ first: { time: true } }),
     location: req.url
   }, (error, redirect, renderProps) => {
     if (error) {
@@ -25,8 +25,8 @@ export default function routerContext(req, res, next) {
 
 
       const actions = renderProps.components.reduce((acts, component) => {
-        if (component.wrappedComponent && component.wrappedComponent.onEnter) {
-          acts.push(component.wrappedComponent.onEnter());
+        if (component.wrappedComponent && component.wrappedComponent.queryData) {
+          acts.push(component.wrappedComponent.queryData());
         }
 
         return acts;

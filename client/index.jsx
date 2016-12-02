@@ -12,6 +12,7 @@ import reducer$ from './reducers';
 const initial = Rx.Observable.of(window.__INITIAL_STATE__);
 
 const state = createState(reducer$, initial);
+
 const App = (
   <HmrContainer>
     <RxStateProvider state$={state}>

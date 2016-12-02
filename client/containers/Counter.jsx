@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Counter from '../components/Counter';
 import * as actions from '../reducers/CounterReducer';
 import { connect } from '../state/RxState';
+import query from '../utils/query';
 
 function CounterContainer({ counter, reset, increment, decrement }) {
   return (
@@ -9,7 +10,15 @@ function CounterContainer({ counter, reset, increment, decrement }) {
   );
 }
 
-CounterContainer.onEnter = () => 'query{ counter { counter }}';
+CounterContainer.queryData = () => 'query{ counter { counter }}';
+
+CounterContainer.onEnter = function onEnter(nextState, replace, callback) {
+  return query(CounterContainer.queryData())
+    .then(({ counter }) => {
+      callback();
+      actions.applyData(counter);
+    });
+};
 
 CounterContainer.propTypes = {
   counter: PropTypes.object.isRequired,

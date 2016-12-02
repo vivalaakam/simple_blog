@@ -17,21 +17,23 @@ const CounterReducer$ = Rx.Observable.of(($initialState) => {
 
 export default CounterReducer$;
 
+const applyData = data => reset$.next(data);
+
 const reset = () => query('mutation { counterReset ) { counter } }')
   .then(({ counterReset }) => {
-    reset$.next(counterReset);
+    applyData(counterReset);
   });
 
 const increment = n => query(`mutation { counterIncrement(payload: ${n}) { counter } }`)
   .then(({ counterIncrement }) => {
-    reset$.next(counterIncrement);
+    applyData(counterIncrement);
   });
 
 const decrement = n => query(`mutation { counterDecrement(payload: ${n}) { counter } }`)
   .then(({ counterDecrement }) => {
-    reset$.next(counterDecrement);
+    applyData(counterDecrement);
   });
 
 export {
-  reset, increment, decrement
+  reset, increment, decrement, applyData
 };

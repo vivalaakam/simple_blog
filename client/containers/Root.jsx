@@ -7,7 +7,7 @@ export const history = process.env.BROWSER ? browserHistory : createMemoryHistor
 export default function Root() {
   return (
     <Router history={history}>
-      {routes()}
+      {routes({ first: { time: true } })}
     </Router>
   );
 }
